@@ -105,6 +105,144 @@ h2 {
   }
 }
 
+/* Dark Theme Styles */
+body.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-theme .app-container {
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme h1 {
+  color: #ffffff;
+}
+
+body.dark-theme h2 {
+  color: #f0f0f0;
+  border-bottom-color: #333333;
+}
+
+body.dark-theme #taskInput,
+body.dark-theme #taskDateInput {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  border-color: #444444;
+}
+
+body.dark-theme #taskInput:focus,
+body.dark-theme #taskDateInput:focus {
+  border-color: #007bff; /* A light blue for focus, stands out in dark mode */
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+body.dark-theme #addTaskBtn {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+body.dark-theme #addTaskBtn:hover {
+  background-color: #0056b3;
+}
+
+body.dark-theme #taskList li {
+  background-color: #1e1e1e; /* Same as app-container or slightly different if preferred */
+  color: #e0e0e0;
+  border-bottom-color: #333333;
+}
+
+body.dark-theme #taskList li:hover {
+  background-color: #2a2a2a;
+}
+
+body.dark-theme #taskList input[type="checkbox"] {
+  /* May need adjustment if checkbox appearance is poor */
+}
+
+body.dark-theme #taskList li.task-item-completed {
+  background-color: #2a3b2a; /* Darker green for completed tasks */
+  /* color: #a0a0a0; /* Slightly muted text for completed tasks */
+}
+
+body.dark-theme #taskList li.task-item-completed span,
+body.dark-theme #taskList li[style*="text-decoration: line-through"] {
+  color: #888888; /* Ensure strikethrough text is visible */
+}
+
+
+body.dark-theme #taskList li button { /* Delete button */
+  background-color: #c82333; /* Darker red */
+  color: white;
+}
+
+body.dark-theme #taskList li button:hover {
+  background-color: #a51827;
+}
+
+/* Calendar Dark Theme */
+body.dark-theme .calendar-header h3 {
+  color: #f0f0f0;
+}
+
+body.dark-theme .calendar-header button {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+body.dark-theme .calendar-header button:hover {
+  background-color: #0056b3;
+}
+
+body.dark-theme .calendar-day-label {
+  color: #cccccc; /* Lighter gray for day labels */
+}
+
+body.dark-theme .calendar-day-cell {
+  background-color: #2c2c2c;
+  border-color: #444444;
+  color: #e0e0e0;
+}
+
+body.dark-theme .calendar-day-cell.empty {
+  background-color: #222222;
+  opacity: 0.6;
+}
+
+body.dark-theme .calendar-day-cell:not(.empty):hover {
+  background-color: #383838;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+body.dark-theme .calendar-day-cell:not(.empty):active {
+   background-color: #404040;
+}
+
+body.dark-theme .calendar-day-cell.has-tasks .calendar-task-indicator {
+  /* The JS adds a span with ' ●', ensure this is visible */
+  /* No specific style needed if the parent's color is inherited and visible */
+}
+body.dark-theme .calendar-day-cell span { /* For the task indicator dot */
+  color: #007bff; /* Make dot blue to stand out */
+}
+
+
+/* Tasks for Date Display Dark Theme */
+body.dark-theme #tasksForDate {
+  background-color: #2c2c2c;
+  border-color: #444444;
+}
+
+body.dark-theme #tasksForDate h4 {
+  color: #f0f0f0;
+}
+
+body.dark-theme #tasksForDate li {
+  border-bottom-color: #444444;
+  color: #e0e0e0;
+}
+
 @keyframes fadeOutSlideUp {
   from {
     opacity: 1;

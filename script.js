@@ -170,13 +170,60 @@ function renderTasks() {
   });
 }
 
+// --- Theme Switching Logic ---
+// Placed outside DOMContentLoaded for broader scope if needed, but functions
+// manipulating DOM elements like themeToggle will be called within or after DOMContentLoaded.
 
-// Add Task
+function applyTheme(isDark) {
+  if (isDark) {
+    document.body.classList.add('dark-theme');
+  } else {
+    document.body.classList.remove('dark-theme');
+  }
+}
+
+function saveThemePreference(isDark) {
+  localStorage.setItem('themeIsDark', JSON.stringify(isDark));
+}
+
+function loadThemePreference() {
+  const themeToggle = document.getElementById('themeToggle');
+  // Ensure themeToggle exists before trying to use it (it should, if called within DOMContentLoaded)
+  if (!themeToggle) { 
+    console.warn("Theme toggle checkbox not found at loadThemePreference call time.");
+    return; 
+  }
+
+  const storedPreference = localStorage.getItem('themeIsDark');
+  if (storedPreference !== null) {
+    const isDark = JSON.parse(storedPreference);
+    applyTheme(isDark);
+    themeToggle.checked = isDark;
+  } else {
+    // Default to light theme if no preference is stored
+    applyTheme(false);
+    themeToggle.checked = false;
+  }
+}
+
+
+// Add Task & Other Initializations
 document.addEventListener('DOMContentLoaded', () => {
+  const themeToggle = document.getElementById('themeToggle'); // Get reference to the toggle
   const taskInput = document.getElementById('taskInput');
   const taskDateInput = document.getElementById('taskDateInput');
   const addTaskBtn = document.getElementById('addTaskBtn');
 
+  // Theme Toggle Event Listener
+  if (themeToggle) {
+    themeToggle.addEventListener('change', () => {
+      applyTheme(themeToggle.checked);
+      saveThemePreference(themeToggle.checked);
+    });
+  } else {
+    console.warn("Theme toggle checkbox not found during event listener setup.");
+  }
+  
   addTaskBtn.addEventListener('click', () => {
     const text = taskInput.value.trim();
     const dueDate = taskDateInput.value;
@@ -207,12 +254,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  loadTasks(); // Load tasks and render them on initial load (uses updated renderTasks)
+  loadTasks(); // Load tasks and render them on initial load
 
   // Calendar State
   let currentCalendarDate = new Date();
-
   renderCalendar(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+
+  // Load theme preference after other initializations
+  loadThemePreference(); 
 });
 
 // --- Calendar Functionality ---
