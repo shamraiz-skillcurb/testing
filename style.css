@@ -1,0 +1,362 @@
+/* General Styling */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  background-color: #f4f7f6;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-container {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px; /* Max width for the app */
+  margin-top: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 25px;
+}
+
+h2 {
+  color: #34495e;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 10px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+/* Input Area */
+.input-area {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+#taskInput,
+#taskDateInput {
+  flex-grow: 1;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+#taskInput:focus,
+#taskDateInput:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+#addTaskBtn {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.2s ease;
+  white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+#addTaskBtn:hover {
+  background-color: #2980b9;
+}
+
+/* Task List */
+#taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden; /* To contain animations that might otherwise overflow */
+}
+
+#taskList li {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #ecf0f1;
+  transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease; /* Added opacity/transform */
+  position: relative; /* For potential absolute positioned children if needed */
+}
+
+/* Animations for adding/removing tasks */
+@keyframes fadeInSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutSlideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 100px; /* Approximate height, adjust as needed */
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+    max-height: 0;
+    padding-top: 0; /* Collapse padding */
+    padding-bottom: 0; /* Collapse padding */
+    margin-bottom: 0; /* Collapse margin if any was added */
+    border-bottom-width: 0; /* Collapse border */
+  }
+}
+
+.task-item-enter-active {
+  animation: fadeInSlideDown 0.4s ease-out forwards;
+}
+
+.task-item-exit-active {
+  animation: fadeOutSlideUp 0.4s ease-in forwards;
+}
+
+
+#taskList li:last-child {
+  border-bottom: none;
+}
+
+#taskList li:hover {
+  background-color: #f9f9f9;
+}
+
+#taskList input[type="checkbox"] {
+  margin-right: 12px;
+  cursor: pointer;
+  transform: scale(1.2); /* Make checkbox slightly larger */
+}
+
+#taskList li span { /* Task text and due date */
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+#taskList li .due-date { /* Specific styling for due date span if added via JS with this class */
+  font-size: 0.9em;
+  color: #7f8c8d;
+  margin-left: 8px;
+}
+
+#taskList li button { /* Delete button */
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease;
+}
+
+#taskList li button:hover {
+  background-color: #c0392b;
+}
+
+/* Styling for completed tasks (strikethrough is applied via JS) */
+#taskList li.task-item-completed {
+  background-color: #eafaf1; /* Subtle green for completion */
+}
+
+#taskList li[style*="text-decoration: line-through"] { /* Existing rule for strikethrough */
+  color: #95a5a6; /* Keep this for text color */
+  /* opacity: 0.7; -- Let the background color and strikethrough be primary indicators */
+}
+
+/* Enhanced Checkbox for completion visual cue */
+#taskList input[type="checkbox"]:checked + span {
+  /* Could add more styles to the task text span when checked if needed */
+}
+
+/* Button and Clickable Element Feedback Enhancements */
+#addTaskBtn,
+.calendar-header button,
+#taskList li button {
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+#addTaskBtn:hover,
+.calendar-header button:hover,
+#taskList li button:hover {
+  transform: translateY(-1px); /* Slight lift */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#addTaskBtn:active,
+.calendar-header button:active,
+#taskList li button:active {
+  transform: translateY(0px); /* Press down effect */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Calendar View */
+#calendarView {
+  margin-top: 20px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.calendar-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.4em;
+}
+
+.calendar-header button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.calendar-header button:hover {
+  background-color: #2980b9;
+}
+
+.calendar-days-row,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px; /* Gap between cells */
+}
+
+.calendar-day-label {
+  text-align: center;
+  font-weight: bold;
+  padding: 8px 0;
+  color: #34495e;
+}
+
+.calendar-day-cell {
+  text-align: center;
+  padding: 10px 5px;
+  border: 1px solid #ecf0f1;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+  min-height: 40px; /* Ensure cells have some height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align day number to top */
+  position: relative; /* For absolute positioning of task indicator */
+}
+
+.calendar-day-cell.empty {
+  background-color: #fdfdfd;
+  cursor: default;
+  opacity: 0.5;
+}
+
+.calendar-day-cell:not(.empty):hover {
+  background-color: #e9f5fd;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  transform: translateY(-1px); /* Slight lift on hover */
+}
+
+.calendar-day-cell:not(.empty):active { /* Feedback when clicked */
+  transform: translateY(0px) scale(0.98);
+  background-color: #d4eefc;
+}
+
+
+.calendar-day-cell.has-tasks .calendar-task-indicator {
+  /* This is a placeholder if a specific element for indicator is used */
+  /* The JS currently appends a span with text ' ●' */
+}
+
+.calendar-day-cell span { /* For the task indicator dot */
+  font-size: 1.2em; /* Make the dot a bit larger */
+  line-height: 1; /* Adjust line height for dot */
+  margin-top: 2px;
+}
+
+
+/* Tasks for Date Display */
+#tasksForDate {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border: 1px solid #ecf0f1;
+}
+
+#tasksForDate h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+#tasksForDate ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#tasksForDate li {
+  padding: 8px 0;
+  border-bottom: 1px dashed #e0e0e0;
+}
+
+#tasksForDate li:last-child {
+  border-bottom: none;
+}
+
+/* Responsive adjustments (very basic) */
+@media (max-width: 600px) {
+  .input-area {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  #taskInput,
+  #taskDateInput,
+  #addTaskBtn {
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding doesn't break layout */
+  }
+
+  body {
+    padding: 10px;
+  }
+
+  .app-container {
+    padding: 15px;
+  }
+
+  #taskList li {
+    flex-wrap: wrap; /* Allow items to wrap on small screens */
+  }
+  #taskList li span {
+    min-width: 150px; /* Give some space before wrapping */
+  }
+  #taskList li button { /* Delete button */
+    margin-top: 5px;
+  }
+}
